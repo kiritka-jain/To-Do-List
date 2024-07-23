@@ -20,10 +20,28 @@ function ToDoList() {
       console.log(tasksList);
     }
   };
-  const removeTask = (id) => {};
 
-  const handleCheck = () => {
-    console.log("box checked");
+  const findTaskById = (task,checkedId)=>{
+    return task.id.toString() == checkedId;
+
+  }
+  const markedComplete = (checkedId) => {
+    const taskIndex = tasksList.findIndex((task)=>findTaskById(task,checkedId));
+    const completeTask = tasksList[taskIndex]
+    updateCompletedTaskList([...completedTasksList, completeTask]);
+    tasksList.splice(taskIndex, 1);
+    updateTaskList(tasksList);
+    
+  };
+
+
+  const handleCheck = (e) => {
+    let isChecked = e.target.checked;
+    if (isChecked){
+      const checkedId = e.target.id;
+      markedComplete(checkedId)
+    };
+    
   };
 
   return (
@@ -44,9 +62,9 @@ function ToDoList() {
           Add Task
         </button>
       </div>
-      <NewList list={tasksList} handleCheck={handleCheck}/>
+      <NewList list={tasksList} handleCheck={handleCheck} message={"To do list has no task."}/>
       <div>
-        <CompletedToDoList list={tasksList} onCheck={handleCheck}/>
+        <CompletedToDoList list={completedTasksList} onCheck={handleCheck} />
       </div>
     </div>
   );
