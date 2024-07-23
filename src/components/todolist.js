@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CompletedToDoList from "./completed-to-do-list";
-import List from "./list";
+import NewList from "./newList";
 
 function ToDoList() {
   const [tasksList, updateTaskList] = useState([]);
@@ -44,9 +44,9 @@ function ToDoList() {
           Add Task
         </button>
       </div>
-      <List list={tasksList} handleCheck={handleCheck}/>
+      <NewList list={tasksList} handleCheck={handleCheck}/>
       <div>
-        <CompletedToDoList />
+        <CompletedToDoList list={tasksList} onCheck={handleCheck}/>
       </div>
     </div>
   );

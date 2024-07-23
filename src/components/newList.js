@@ -1,6 +1,6 @@
 import Row from "./row";
 
-const List = (props) => {
+const NewList = (props) => {
   const { list, handleCheck } = props;
 
   const renderList = () => {
@@ -15,4 +15,4 @@ const List = (props) => {
     </div>
   );
 };
-export default List;
+export default NewList;

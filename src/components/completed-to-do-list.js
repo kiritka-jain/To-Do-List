@@ -7,9 +7,11 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
+import NewList from './newList';
 
 
-export default function CompletedToDoList() {
+const CompletedToDoList= (props)=> {
+    const {list,onCheck} = props;
   const [open, setOpen] = React.useState(true);
  
 
@@ -29,15 +31,9 @@ export default function CompletedToDoList() {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
+       <NewList list={list} handleCheck={onCheck}/>
       </Collapse>
     </List>
   );
 }
+export default CompletedToDoList;
