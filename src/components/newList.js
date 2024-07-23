@@ -1,7 +1,7 @@
 import Row from "./row";
 
 const NewList = (props) => {
-  const { id,list, handleCheck,message } = props;
+  const { list, handleCheck,message } = props;
 
   const renderList = () => {
     return list.map((task) => (

@@ -34,14 +34,30 @@ function ToDoList() {
     
   };
 
+  const markUnComplete = (uncheckedId)=>{
+    const taskIndex = tasksList.findIndex((task)=>findTaskById(task,uncheckedId));
+    const unCompleteTask = tasksList[taskIndex]
+    updateTaskList([...tasksList,unCompleteTask]);
+    completedTasksList.splice(taskIndex,1);
+    updateCompletedTaskList(completedTasksList);
 
-  const handleCheck = (e) => {
+  }
+
+
+  const handleMarkComplete= (e) => {
     let isChecked = e.target.checked;
     if (isChecked){
       const checkedId = e.target.id;
       markedComplete(checkedId)
-    };
-    
+    }
+  };
+
+  const handleMarkUnComplete= (e) => {
+    let isChecked = e.target.checked;
+    if (isChecked){
+      const checkedId = e.target.id;
+      markUnComplete(checkedId)
+    }
   };
 
   return (
@@ -62,9 +78,9 @@ function ToDoList() {
           Add Task
         </button>
       </div>
-      <NewList list={tasksList} handleCheck={handleCheck} message={"To do list has no task."}/>
+      <NewList list={tasksList} handleCheck={handleMarkComplete} message={"To do list has no task."}/>
       <div>
-        <CompletedToDoList list={completedTasksList} onCheck={handleCheck} />
+        <CompletedToDoList list={completedTasksList} handleCheck={handleMarkUnComplete} />
       </div>
     </div>
   );

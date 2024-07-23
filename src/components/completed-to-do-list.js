@@ -9,7 +9,7 @@ import NewList from './newList';
 
 
 const CompletedToDoList= (props)=> {
-    const {list,onCheck} = props;
+    const {list,handleCheck} = props;
   const [open, setOpen] = React.useState(true);
 
   const inlineStyle = {
@@ -20,6 +20,7 @@ const CompletedToDoList= (props)=> {
   const handleClick = () => {
     setOpen(!open);
   };
+
 
   return (
     <List
@@ -32,8 +33,8 @@ const CompletedToDoList= (props)=> {
         <ListItemText primary="Completed Tasks" />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-       <NewList list={list} handleCheck={onCheck} message={"No completed task."} />
+      <Collapse in={open} timeout="auto" unmountOnExit style={inlineStyle}>
+       <NewList list={list} handleCheck={handleCheck} message={"No completed task."}/>
       </Collapse>
     </List>
   );
