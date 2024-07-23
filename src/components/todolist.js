@@ -1,9 +1,11 @@
 import { useState } from "react";
-import Row from "./row";
+import CompletedToDoList from "./completed-to-do-list";
+import List from "./list";
 
 function ToDoList() {
   const [tasksList, updateTaskList] = useState([]);
   const [value, updateValue] = useState("");
+  const [completedTasksList, updateCompletedTaskList] = useState([]);
 
   const addTask = (value) => {
     if (value) {
@@ -18,43 +20,34 @@ function ToDoList() {
       console.log(tasksList);
     }
   };
+  const removeTask = (id) => {};
 
   const handleCheck = () => {
     console.log("box checked");
   };
-  const rowItems = tasksList.map((task) => (
-    <div className="row">
-        <Row
-      key={task.id}
-      value={task.text}
-      onClick={handleCheck}
-    />
-    </div>
-    
-  ));
+
   return (
     <div className="toDoList">
-        <div className="task">
-            <input
-            type="text"
-            value={value}
-            onChange={(e) => updateValue(e.target.value)}
-            placeholder="Enter task"
+      <div className="task">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => updateValue(e.target.value)}
+          placeholder="Enter task"
         />
-            <button
-                type="submit"
-                onClick={() => {
-                addTask(value);
-                }}
-            >
-                Add Task
-            </button>
-        </div>
-      
-      <div className="taskRow">
-        {tasksList.length === 0 ? "To do list has no task." : rowItems}
+        <button
+          type="submit"
+          onClick={() => {
+            addTask(value);
+          }}
+        >
+          Add Task
+        </button>
       </div>
-      
+      <List list={tasksList} handleCheck={handleCheck}/>
+      <div>
+        <CompletedToDoList />
+      </div>
     </div>
   );
 }
