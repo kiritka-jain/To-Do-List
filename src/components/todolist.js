@@ -27,7 +27,8 @@ function ToDoList() {
   }
   const markedComplete = (checkedId) => {
     const taskIndex = tasksList.findIndex((task)=>findTaskById(task,checkedId));
-    const completeTask = tasksList[taskIndex]
+    const completeTask = tasksList[taskIndex];
+    completeTask.completed =true;
     updateCompletedTaskList([...completedTasksList, completeTask]);
     tasksList.splice(taskIndex, 1);
     updateTaskList(tasksList);
@@ -35,8 +36,9 @@ function ToDoList() {
   };
 
   const markUnComplete = (uncheckedId)=>{
-    const taskIndex = tasksList.findIndex((task)=>findTaskById(task,uncheckedId));
-    const unCompleteTask = tasksList[taskIndex]
+    const taskIndex = completedTasksList.findIndex((task)=>findTaskById(task,uncheckedId));
+    const unCompleteTask = completedTasksList[taskIndex];  
+    unCompleteTask.completed =false;
     updateTaskList([...tasksList,unCompleteTask]);
     completedTasksList.splice(taskIndex,1);
     updateCompletedTaskList(completedTasksList);
@@ -49,15 +51,15 @@ function ToDoList() {
     if (isChecked){
       const checkedId = e.target.id;
       markedComplete(checkedId)
-    }
+    };
   };
 
   const handleMarkUnComplete= (e) => {
     let isChecked = e.target.checked;
-    if (isChecked){
-      const checkedId = e.target.id;
-      markUnComplete(checkedId)
-    }
+    if (!isChecked){
+      const uncheckedId = e.target.id;
+      markUnComplete(uncheckedId)
+    };
   };
 
   return (

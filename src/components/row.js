@@ -1,5 +1,5 @@
 const Row = (props)=> {
-    const {id,value, onClick } = props;
+    const {id,value, completed,  onClick } = props;
     return(
         <div className="row">
             <label> 
@@ -8,7 +8,8 @@ const Row = (props)=> {
             className="chkboxitem" 
             value = {value}
             id = {id}
-            onClick={(onClick)}/>
+            checked = {completed}
+            onChange={(onClick)}/>
             {value}
             </label>
 

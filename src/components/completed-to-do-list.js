@@ -33,8 +33,9 @@ const CompletedToDoList= (props)=> {
         <ListItemText primary="Completed Tasks" />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit style={inlineStyle}>
-       <NewList list={list} handleCheck={handleCheck} message={"No completed task."}/>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+          <NewList style={inlineStyle} list={list} handleCheck={handleCheck} message="No completed task."/>
+      
       </Collapse>
     </List>
   );
