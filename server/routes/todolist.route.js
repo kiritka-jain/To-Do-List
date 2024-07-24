@@ -1,10 +1,10 @@
 import express from 'express';
+import toDoController from "../controllers/todolist.controller.js"
 
 const router = express.Router();
 
-router.get('/getAllTasks',()=>{
-  console.log("All to do tasks.")
-});
+router.get('/gettodoList',toDoController.getToDo);
+router.post("/addtask",toDoController.addTask);
 
 
 
