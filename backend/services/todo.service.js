@@ -1,5 +1,6 @@
 const db = require( "../models/index.js");
 const { ServerError,ValidationError } = require ("../errors/custom.errors.js");
+const { send } = require("process");
 
 class Todolist {
     static async addTask(taskData) {
@@ -15,6 +16,15 @@ class Todolist {
           throw new ServerError('Error adding task');
         }
       }
+      static  async getAll(res,req){
+        try {
+          const alltodo = await db.Todo.findAll();
+          const ans = JSON.stringify(alltodo);
+          return ans;
+      } catch(error){
+        console.log("error:",error);
+      }
+    }
 
 }
 module.exports  =Todolist;
