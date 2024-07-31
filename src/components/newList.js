@@ -10,7 +10,7 @@ const NewList = (props) => {
           <Row
             key={task.id}
             id={task.id}
-            value={task.text}
+            value={task.title}
             completed={task.completed}
             onClick={handleCheck}
           />

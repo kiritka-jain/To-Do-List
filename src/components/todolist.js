@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CompletedToDoList from "./completed-to-do-list";
 import NewList from "./newList";
+import axios from "axios";
 
 function ToDoList() {
   const [tasksList, updateTaskList] = useState([]);
   const [value, updateValue] = useState("");
   const [completedTasksList, updateCompletedTaskList] = useState([]);
+
 
   const addTask = (value) => {
     if (value) {
@@ -61,6 +63,17 @@ function ToDoList() {
       markUnComplete(uncheckedId)
     };
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/todo/getall');
+        updateTaskList(response.data);
+      } catch (error) {
+        console.log("error:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="toDoList">
