@@ -17,14 +17,45 @@ class Todolist {
         }
       }
       static  async getAll(res,req){
-        try {
-          const alltodo = await db.Todo.findAll();
-          const ans = JSON.stringify(alltodo);
-          return ans;
-      } catch(error){
-        console.log("error:",error);
-      }
+        const status = req.query.completed;
+        console.log(typeof(status));
+        if (status == "false"){
+          try {
+            const uncompletedtodo = await db.Todo.findAll({
+              where: {
+                completed: false
+              }
+            });
+            const ans = JSON.parse(JSON.stringify(uncompletedtodo));
+            return ans;
+        } catch(error){
+          console.log("error:",error);
+        }
+        }
+        else if (status == "true"){
+          try {
+            const completedtodo = await db.Todo.findAll({
+              where: {
+                completed: true
+              }
+            });
+            const ans = JSON.parse(JSON.stringify(completedtodo));
+            return ans;
+        } catch(error){
+          console.log("error:",error);
+        }
+        }
+        else{
+            try {
+              const completedtodo = await db.Todo.findAll()
+              const ans = JSON.parse(JSON.stringify(completedtodo));
+              return ans;
+          } catch(error){
+            console.log("error:",error);
+          }
+          }
+        };
+        
     }
 
-}
 module.exports  =Todolist;
