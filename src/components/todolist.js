@@ -9,16 +9,22 @@ function ToDoList() {
   const [completedTasksList, updateCompletedTaskList] = useState([]);
 
 
-  const addTask = (value) => {
+  const addTask = async(value) => {
     if (value) {
       const newTask = {
-        id: Date.now(),
-        text: value,
+        title: value,
         completed: false,
       };
-
-      updateTaskList([...tasksList, newTask]);
-      updateValue("");
+      try {
+        const response = await axios.post('/todo/addtask',newTask);
+        console.log(response);
+        updateTaskList([...tasksList, response.data]);
+        updateValue("");
+       
+      } catch (error) {
+        console.log("error:", error);
+      }
+      
       console.log(tasksList);
     }
   };
@@ -66,7 +72,7 @@ function ToDoList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/todo/getall');
+        const response = await axios.get('/todo/getall');
         updateTaskList(response.data);
       } catch (error) {
         console.log("error:", error);
