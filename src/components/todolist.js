@@ -9,6 +9,21 @@ function ToDoList() {
   const [completedTasksList, updateCompletedTaskList] = useState([]);
 
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const uncompletedResponse = await axios.get('/todo/get_all?completed=false');
+        const completedResponse = await axios.get('/todo/get_all?completed=true');
+        updateTaskList(uncompletedResponse.data);
+        updateCompletedTaskList(completedResponse.data);
+      } catch (error) {
+        console.log("error:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
   const addTask = async(value) => {
     if (value) {
       const newTask = {
@@ -69,17 +84,7 @@ function ToDoList() {
       markUnComplete(uncheckedId)
     };
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/todo/getall');
-        updateTaskList(response.data);
-      } catch (error) {
-        console.log("error:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  
 
   return (
     <div className="toDoList">
