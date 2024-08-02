@@ -23,13 +23,13 @@ class Todolist {
     var query;
 
     if (status === undefined) {
-      query = {}
+      query = {};
     } else {
       query = {
         where: {
           completed: JSON.parse(status),
         },
-      }
+      };
     }
 
     try {
@@ -38,8 +38,30 @@ class Todolist {
       const ans = JSON.parse(JSON.stringify(tasks));
       console.log("error:", ans);
       return ans;
-    } catch (error) {
+    } 
+    catch (error) {
       console.log("error:", error);
+    }
+  }
+  static async updateTask(req,res) {
+    var taskid = JSON.parse(req.query.id);
+    const updateParams = req.body;
+    try {
+      console.log(typeof(taskid));
+      const completedtask = await db.Todo.update(
+        updateParams,
+        { where: { id: taskid } }
+      );
+      console.log(completedtask);
+      if (completedtask == 0) {
+        return "There is no task with this id .";
+      }
+      return "Task updated sucessfully.";
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      throw new ServerError("Error updating task");
     }
   }
 }

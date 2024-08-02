@@ -25,5 +25,13 @@ const todolist = {
       res.status(500).json({ message: "Server error" });
     }
   },
+  updateTask: async(req,res)=> {
+    try{
+      const task = await todoservice.updateTask(req,res);
+      res.status(200).send(task)
+    }catch(err){
+      res.status(500).json({ message: "Server error" });
+    }
+  }
 };
 module.exports = todolist;
