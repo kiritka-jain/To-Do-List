@@ -8,14 +8,26 @@ function ToDoList() {
   const [value, updateValue] = useState("");
   const [completedTasksList, updateCompletedTaskList] = useState([]);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const uncompletedResponse = await axios.get('/todo/get_all?completed=false');
-        const completedResponse = await axios.get('/todo/get_all?completed=true');
-        updateTaskList(uncompletedResponse.data);
-        updateCompletedTaskList(completedResponse.data);
+        const Response = await axios.get("/todo/get_all");
+        const wholeList = Response.data;
+        var uncompletedResponse = [];
+        var completedResponse = [];
+        for (let task in wholeList) {
+          const complete = wholeList[task].completed;
+          console.log(typeof(complete))
+          if (complete === true) {
+            completedResponse.push(wholeList[task]);
+          } else {
+            uncompletedResponse.push(wholeList[task]);
+          }
+        }
+        console.log("uncompleted:",uncompletedResponse);
+        console.log("completed",completedResponse);
+        updateTaskList(uncompletedResponse);
+        updateCompletedTaskList(completedResponse);
       } catch (error) {
         console.log("error:", error);
       }
@@ -23,68 +35,65 @@ function ToDoList() {
     fetchData();
   }, []);
 
-
-  const addTask = async(value) => {
+  const addTask = async (value) => {
     if (value) {
       const newTask = {
         title: value,
         completed: false,
       };
       try {
-        const response = await axios.post('/todo/addtask',newTask);
+        const response = await axios.post("/todo/add_task", newTask);
         console.log(response);
         updateTaskList([...tasksList, response.data]);
         updateValue("");
-       
       } catch (error) {
         console.log("error:", error);
       }
-      
+
       console.log(tasksList);
     }
   };
 
-  const findTaskById = (task,checkedId)=>{
+  const findTaskById = (task, checkedId) => {
     return task.id.toString() == checkedId;
-
-  }
+  };
   const markedComplete = (checkedId) => {
-    const taskIndex = tasksList.findIndex((task)=>findTaskById(task,checkedId));
+    const taskIndex = tasksList.findIndex((task) =>
+      findTaskById(task, checkedId)
+    );
     const completeTask = tasksList[taskIndex];
-    completeTask.completed =true;
+    completeTask.completed = true;
     updateCompletedTaskList([...completedTasksList, completeTask]);
     tasksList.splice(taskIndex, 1);
     updateTaskList(tasksList);
-    
   };
 
-  const markUnComplete = (uncheckedId)=>{
-    const taskIndex = completedTasksList.findIndex((task)=>findTaskById(task,uncheckedId));
-    const unCompleteTask = completedTasksList[taskIndex];  
-    unCompleteTask.completed =false;
-    updateTaskList([...tasksList,unCompleteTask]);
-    completedTasksList.splice(taskIndex,1);
+  const markUnComplete = (uncheckedId) => {
+    const taskIndex = completedTasksList.findIndex((task) =>
+      findTaskById(task, uncheckedId)
+    );
+    const unCompleteTask = completedTasksList[taskIndex];
+    unCompleteTask.completed = false;
+    updateTaskList([...tasksList, unCompleteTask]);
+    completedTasksList.splice(taskIndex, 1);
     updateCompletedTaskList(completedTasksList);
+  };
 
-  }
-
-
-  const handleMarkComplete= (e) => {
+  const handleMarkComplete = (e) => {
     let isChecked = e.target.checked;
-    if (isChecked){
+    if (isChecked) {
       const checkedId = e.target.id;
-      markedComplete(checkedId)
-    };
+      markedComplete(checkedId);
+    }
   };
 
-  const handleMarkUnComplete= (e) => {
+  const handleMarkUnComplete = (e) => {
     let isChecked = e.target.checked;
-    if (!isChecked){
+    if (!isChecked) {
       const uncheckedId = e.target.id;
-      markUnComplete(uncheckedId)
-    };
+      markUnComplete(uncheckedId);
+    }
   };
-  
 
   return (
     <div className="toDoList">
@@ -104,9 +113,16 @@ function ToDoList() {
           Add Task
         </button>
       </div>
-      <NewList list={tasksList} handleCheck={handleMarkComplete} message={"To do list has no task."}/>
+      <NewList
+        list={tasksList}
+        handleCheck={handleMarkComplete}
+        message={"To do list has no task."}
+      />
       <div>
-        <CompletedToDoList list={completedTasksList} handleCheck={handleMarkUnComplete} />
+        <CompletedToDoList
+          list={completedTasksList}
+          handleCheck={handleMarkUnComplete}
+        />
       </div>
     </div>
   );
