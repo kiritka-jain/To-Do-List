@@ -17,15 +17,15 @@ function ToDoList() {
         var completedResponse = [];
         for (let task in wholeList) {
           const complete = wholeList[task].completed;
-          console.log(typeof(complete))
+          console.log(typeof complete);
           if (complete === true) {
             completedResponse.push(wholeList[task]);
           } else {
             uncompletedResponse.push(wholeList[task]);
           }
         }
-        console.log("uncompleted:",uncompletedResponse);
-        console.log("completed",completedResponse);
+        console.log("uncompleted:", uncompletedResponse);
+        console.log("completed", completedResponse);
         updateTaskList(uncompletedResponse);
         updateCompletedTaskList(completedResponse);
       } catch (error) {
@@ -43,7 +43,6 @@ function ToDoList() {
       };
       try {
         const response = await axios.post("/todo/add_task", newTask);
-        console.log(response);
         updateTaskList([...tasksList, response.data]);
         updateValue("");
       } catch (error) {
@@ -57,28 +56,45 @@ function ToDoList() {
   const findTaskById = (task, checkedId) => {
     return task.id.toString() == checkedId;
   };
-  const markedComplete = (checkedId) => {
-    const taskIndex = tasksList.findIndex((task) =>
-      findTaskById(task, checkedId)
-    );
-    const completeTask = tasksList[taskIndex];
-    completeTask.completed = true;
-    updateCompletedTaskList([...completedTasksList, completeTask]);
-    tasksList.splice(taskIndex, 1);
-    updateTaskList(tasksList);
+
+  const markedComplete = async (checkedId) => {
+    try {
+      const response = await axios.put(`/todo/update_task?id=${checkedId}`, {
+        completed: true,
+      });
+      console.log(response.data);
+
+      const taskIndex = tasksList.findIndex((task) =>
+        findTaskById(task, checkedId)
+      );
+      const completeTask = tasksList[taskIndex];
+      completeTask.completed = true;
+      updateCompletedTaskList([...completedTasksList, completeTask]);
+      tasksList.splice(taskIndex, 1);
+      updateTaskList(tasksList);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const markUnComplete = (uncheckedId) => {
-    const taskIndex = completedTasksList.findIndex((task) =>
-      findTaskById(task, uncheckedId)
-    );
-    const unCompleteTask = completedTasksList[taskIndex];
-    unCompleteTask.completed = false;
-    updateTaskList([...tasksList, unCompleteTask]);
-    completedTasksList.splice(taskIndex, 1);
-    updateCompletedTaskList(completedTasksList);
+  const markUnComplete = async (uncheckedId) => {
+    try {
+      const response = await axios.put(`/todo/update_task?id=${uncheckedId}`, {
+        completed: false,
+      });
+      console.log(response.data);
+      const taskIndex = completedTasksList.findIndex((task) =>
+        findTaskById(task, uncheckedId)
+      );
+      const unCompleteTask = completedTasksList[taskIndex];
+      unCompleteTask.completed = false;
+      updateTaskList([...tasksList, unCompleteTask]);
+      completedTasksList.splice(taskIndex, 1);
+      updateCompletedTaskList(completedTasksList);
+    } catch (err) {
+      console.log(err);
+    }
   };
-
   const handleMarkComplete = (e) => {
     let isChecked = e.target.checked;
     if (isChecked) {

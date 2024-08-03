@@ -3,6 +3,7 @@ const { ServerError, ValidationError } = require("../errors/custom.errors.js");
 const { send } = require("process");
 const { query } = require("express");
 
+
 class Todolist {
   static async addTask(taskData) {
     console.log("taskData", taskData);
@@ -46,6 +47,7 @@ class Todolist {
   static async updateTask(req,res) {
     var taskid = JSON.parse(req.query.id);
     const updateParams = req.body;
+    console.log(taskid,updateParams)
     try {
       console.log(typeof(taskid));
       const completedtask = await db.Todo.update(
