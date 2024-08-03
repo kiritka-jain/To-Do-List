@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CompletedToDoList from "./completed-to-do-list";
 import NewList from "./newList";
 import axios from "axios";
+import './todolist.css';
 
 function ToDoList() {
   const [tasksList, updateTaskList] = useState([]);
@@ -113,6 +114,7 @@ function ToDoList() {
 
   return (
     <div className="toDoList">
+      <h1>TO-DO-List</h1>
       <div className="task">
         <input
           type="text"

@@ -1,3 +1,5 @@
+import "./row.css";
+
 const Row = (props)=> {
     const {id,value, completed,  onClick } = props;
     return(

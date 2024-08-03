@@ -1,7 +1,9 @@
 .App {
+  display: flex;
   text-align: center;
   border-radius: 5%;
   background-color:beige;
+  justify-content: center;
   width: 500px;
   margin: 20px;
   border: 20px;
@@ -43,24 +45,4 @@
   }
 }
 
-.row{
-  text-align: justify;
-  border: 1px solid rgb(236, 241, 241);
-  height: 50px;
-  
 
-}
-.toDoList {
- background-color:white;
- border-radius: 5%;
- margin: 50px;
- border: 20px;
- padding: 20px;
- border-left:2px solid rgb(60, 177, 250);
-}
-.task {
-  text-align: flex;
-  background-color:aliceblue;
-  height: 50px;
- margin: auto;
-}

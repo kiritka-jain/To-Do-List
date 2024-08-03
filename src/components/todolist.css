@@ -1,0 +1,20 @@
+.toDoList {
+
+    background-color:white;
+    border-radius: 5%;
+    margin: 50px;
+    border: 20px;
+    padding: 20px;
+    border-left:2px solid rgb(60, 177, 250);
+    width: 400px;
+   }
+
+   .task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    background-color:aliceblue;
+    height: 50px;
+   margin: auto;
+  }
