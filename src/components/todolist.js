@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import CompletedToDoList from "./completed-to-do-list";
 import NewList from "./newList";
 import axios from "axios";
-import './todolist.css';
+import "./todolist.css";
+import { useSnackbar } from "notistack";
 
 function ToDoList() {
   const [tasksList, updateTaskList] = useState([]);
   const [value, updateValue] = useState("");
   const [completedTasksList, updateCompletedTaskList] = useState([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,6 +50,13 @@ function ToDoList() {
         updateValue("");
       } catch (error) {
         console.log("error:", error);
+        enqueueSnackbar(error, {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "right",
+          },
+        });
       }
 
       console.log(tasksList);
@@ -62,6 +71,13 @@ function ToDoList() {
     try {
       const response = await axios.put(`/todo/update_task?id=${checkedId}`, {
         completed: true,
+      });
+      enqueueSnackbar(response.data, {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
       });
       console.log(response.data);
 
